@@ -11,7 +11,7 @@ import UIKit
         case groupCell = "FeatureGroupCell"
     }
     
-    let tableView: UITableView = {
+    public let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
