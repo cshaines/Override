@@ -4,12 +4,18 @@
 import Foundation
 import UIKit
 
-@objc public class FeaturesTableViewController: UITableViewController {
+@objc public class FeaturesTableViewController: UIViewController {
 
     enum FeatureCellIdentifier: String {
         case switchCell = "FeatureSwitchCell"
         case groupCell = "FeatureGroupCell"
     }
+    
+    let tableView: UITableView = {
+        let table = UITableView(frame: .zero, style: .plain)
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
 
     let presenter: FeaturesPresenter
 
@@ -21,7 +27,7 @@ import UIKit
         presenter = FeaturesPresenter(withFeatures: arrayFeatures)
         interactor = FeaturesInteractor(withPresenter: presenter)
 
-        super.init(style: UITableView.Style.plain)
+        super.init(nibName: nil, bundle: nil)
 
         presenter.output = self
     }
@@ -32,7 +38,14 @@ import UIKit
 
     override open func viewDidLoad() {
         super.viewDidLoad()
-
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
         tableView.register(FeatureSwitchCell.self, forCellReuseIdentifier: FeatureCellIdentifier.switchCell.rawValue)
         tableView.register(FeatureGroupCell.self, forCellReuseIdentifier: FeatureCellIdentifier.groupCell.rawValue)
 
